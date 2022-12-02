@@ -59,3 +59,8 @@ Contributors
 * Mark Galloway
 * Abram Hindle
 * Cole Mackenzie
+
+REFERENCES
+============
+https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
+(Inline reference also given in files)
