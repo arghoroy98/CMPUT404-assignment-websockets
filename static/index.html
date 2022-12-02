@@ -81,6 +81,7 @@ function clearFrame() {
 // This actually draws the frame
 function renderFrame() {
     clearFrame();
+    console.log(world)
     for (var key in world) {
         var entity = world[key];
         drawCircle(context,prepEntity(entity));
@@ -123,12 +124,19 @@ function getPosition(e) {
 
 function addEntity(entity, data) {
     world[entity] = data;
+    
+
+    current_entity = {}
+    current_entity[entity] = data
+    stringified_json = JSON.stringify(current_entity)
+    
+    // Creates a JSON object and sends it to the server through socket.send
+    socket.send(stringified_json)   
     drawNextFrame(); // (but should we?)
-    //XXX: Send a XHTML Request that updates the entity you just modified!
 }
 var counter = 0;
 function addEntityWithoutName(data) {
-    var name = "X"+(counter++)%100;
+    var name = "X"+data['x']+data['y'];
     addEntity(name,data);
 }
 
@@ -259,8 +267,14 @@ function wsSetup() {
         debug("WebSocket Error:" + msg.data);
     };
     socket.onmessage = function(msg) {  
+        // Here when we receive the message from the server we update our world
         try {
             debug("WebSocket Recv:" + msg.data);
+            let entry = JSON.parse(msg.data)
+            for (const[key,value] of Object.entries(entry)){
+                world[key] = value
+            }
+            drawNextFrame();
             //XXX: TODO What are you going to do here?            
         } catch (e) {
             alert("socket on message: " + e);
@@ -269,9 +283,6 @@ function wsSetup() {
 }
 
 wsSetup();
-
-
-
 
 // 30 frames per second
 setInterval( update, 1000/30.0);
