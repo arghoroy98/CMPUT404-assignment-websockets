@@ -28,7 +28,7 @@ app.debug = True
 
 clients = list()
 
-class Client:                               #Reference: https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
+class Client:                               #Reference(Lines 31 to 39): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
     def __init__(self): 
         self.queue = queue.Queue()
 
@@ -75,7 +75,7 @@ class World:
 myWorld = World()        
 
 #REFERENCED CODE
-def send_all(msg):              
+def send_all(msg):                      #Reference(Lines 78 to 83): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py          
     for client in clients:
         client.put(msg)
 
@@ -97,7 +97,7 @@ def hello():
     return flask.redirect("/static/index.html")
 
 
-def read_ws(ws,client):                                                         #Reference: https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
+def read_ws(ws,client):                                                         #Reference(Line 100 to 112): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
     '''A greenlet function that reads from the websocket and updates the world'''
     try:
         while True:
@@ -112,7 +112,7 @@ def read_ws(ws,client):                                                         
         pass
 
 @sockets.route('/subscribe')
-def subscribe_socket(ws):                                                       #Reference: https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
+def subscribe_socket(ws):                                                       #Reference(Line 115 to 137): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
     '''Fufill the websocket URL of /subscribe, every update notify the
        websocket and read updates from the websocket '''
     client = Client()
