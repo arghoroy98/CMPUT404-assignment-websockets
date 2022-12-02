@@ -28,7 +28,7 @@ app.debug = True
 
 clients = list()
 
-class Client:                               #Reference(Lines 31 to 39): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
+class Client:                               #Reference(Lines 31 to 39 in my code): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
     def __init__(self): 
         self.queue = queue.Queue()
 
@@ -74,14 +74,14 @@ class World:
 
 myWorld = World()        
 
-#REFERENCED CODE
-def send_all(msg):                      #Reference(Lines 78 to 83): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py          
+
+def send_all(msg):                      #Reference(Lines 78 to 83 in my code): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py          
     for client in clients:
         client.put(msg)
 
 def send_all_json(obj):
     send_all(json.dumps(obj))
-#REFERENCED CODE BLOCK END
+
 
 def set_listener( entity, data ):
     ''' do something with the update ! '''
@@ -97,7 +97,7 @@ def hello():
     return flask.redirect("/static/index.html")
 
 
-def read_ws(ws,client):                                                         #Reference(Line 100 to 112): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
+def read_ws(ws,client):                                                         #Reference(Line 100 to 112 in my code): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
     '''A greenlet function that reads from the websocket and updates the world'''
     try:
         while True:
@@ -112,14 +112,14 @@ def read_ws(ws,client):                                                         
         pass
 
 @sockets.route('/subscribe')
-def subscribe_socket(ws):                                                       #Reference(Line 115 to 137): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
+def subscribe_socket(ws):                                                       #Reference(Line 115 to 137 in my code): https://github.com/abramhindle/WebSocketsExamples/blob/master/broadcaster.py
     '''Fufill the websocket URL of /subscribe, every update notify the
        websocket and read updates from the websocket '''
     client = Client()
     clients.append(client)
     g = gevent.spawn( read_ws, ws, client )
     try:
-        # So this is a one time thing where I will send the entire world to the server
+        # So this is a one time thing where I will send the entire world to the client
         for key,value in myWorld.world().items():
             my_object = {key:value}
             print(my_object)
